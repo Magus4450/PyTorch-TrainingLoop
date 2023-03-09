@@ -292,9 +292,10 @@ for epoch in range(load_epoch, load_epoch+num_epochs):
             'train_loss': train_loss,
             'val_loss': val_loss,
             'train_acc': train_acc,
-            'val_acc': val_acc
+            'val_acc': val_acc,
+            'epoch': epoch+1
         }
-        save_checkpoint(checkpoint)
+        save_checkpoint(checkpoint, save_path, 'model_name')
 
 #####################################################################
 

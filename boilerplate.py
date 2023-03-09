@@ -176,7 +176,7 @@ def save_checkpoint(state: dict, save_path: str, model_name: str) -> None:
 
     torch.save(state, state_save_path)
 
-def load_checkpoint(save_path:str, epoch:str) -> Dict:
+def load_checkpoint(save_path:str, model_name:str, epoch:str) -> Dict:
     """Loads checkpoint and returns a state dictionary
 
     Args:
@@ -187,7 +187,7 @@ def load_checkpoint(save_path:str, epoch:str) -> Dict:
         Dict: State dictionary
     """
 
-    filename = f'{epoch}.pth.tar'
+    filename = f'{model_name}_{epoch}.pth.tar'
     file_path = os.path.join(save_path, filename)
 
     state = torch.load(file_path)
@@ -199,6 +199,7 @@ def load_checkpoint(save_path:str, epoch:str) -> Dict:
 
 # Model Save Path
 checkpoint_folder_name = 'Saves'
+model_name = 'model'
 save_path = setup_model_save_path(checkpoint_folder_name)
 
 
@@ -238,7 +239,7 @@ if load_model:
     start_epoch = load_epoch
     
     # Load state from checkpoint
-    state = load_checkpoint(save_path, 'model', load_epoch)
+    state = load_checkpoint(save_path, model_name, load_epoch)
 
     model = model.load_state_dict(state['state_dict'])
     optimizer = optimizer.load_state_dict(state['optimizer'])
@@ -295,7 +296,7 @@ for epoch in range(load_epoch, load_epoch+num_epochs):
             'val_acc': val_acc,
             'epoch': epoch+1
         }
-        save_checkpoint(checkpoint, save_path, 'model_name')
+        save_checkpoint(checkpoint, save_path, model_name)
 
 #####################################################################
 
